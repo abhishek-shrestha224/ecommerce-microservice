@@ -1,4 +1,4 @@
-package com.example.ecommerce.domain.model;
+package com.example.ecommerce.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 @Document
-public class ProductModel {
+public class ProductDocument {
   @Id private String id;
 
   private String fName;
