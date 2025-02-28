@@ -8,8 +8,8 @@ import lombok.Builder;
 
 @Builder
 public record CustomerRequest(
-    @Null String id,
-    @NotBlank String fName,
-    @NotBlank String lName,
-    @Email String email,
-    @NotNull Address address) {}
+    @Null(message = "Id is assigned automatically.") String id,
+    @NotBlank(message = "fName is required.") String fName,
+    @NotBlank(message = "lName is required.") String lName,
+    @NotNull(message = "Email is required.") @Email(message = "Email is not valid.") String email,
+    @NotNull(message = "Address is required.") Address address) {}
