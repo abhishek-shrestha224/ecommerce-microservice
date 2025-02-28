@@ -12,7 +12,7 @@ public class CustomerMapper {
     log.info("CustomerRequest -> CustomerDocument, {}", request);
 
     if (null == request) {
-      log.info("CustomerRequest: NullPointerException");
+      log.warn("CustomerRequest: NullPointerException");
       return null;
     }
     return CustomerDocument.builder()
