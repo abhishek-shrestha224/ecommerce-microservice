@@ -10,6 +10,6 @@ import java.math.BigDecimal;
 public record ProductRequest(
     Integer id,
     @NotBlank String name,
-    @Positive double quantity,
+    @Positive Integer quantity,
     @Positive BigDecimal price,
     @NotBlank String categoryName) {}

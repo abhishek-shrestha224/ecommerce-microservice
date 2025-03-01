@@ -20,7 +20,7 @@ public class ProductModel {
 
   private String name;
 
-  private Double quantity;
+  private Integer quantity;
 
   private BigDecimal price;
 
