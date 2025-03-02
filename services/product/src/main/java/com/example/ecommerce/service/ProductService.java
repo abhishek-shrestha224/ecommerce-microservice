@@ -1,15 +1,19 @@
 package com.example.ecommerce.service;
 
+import com.example.ecommerce.exception.PurchaseException;
+import com.example.ecommerce.model.ProductModel;
 import com.example.ecommerce.repository.ProductRepository;
 import com.example.ecommerce.request.ProductRequest;
+import com.example.ecommerce.request.PurchaseRequest;
 import com.example.ecommerce.response.ProductResponse;
+import com.example.ecommerce.response.PurchaseResponse;
 import com.example.ecommerce.utils.ProductMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,5 +49,43 @@ public class ProductService {
     return productRepository.findAll().stream()
         .map(productMapper::toResponse)
         .collect(Collectors.toList());
+  }
+
+  public List<PurchaseResponse> purchase(List<PurchaseRequest> order) {
+    final var orderProducts = order.stream().map(PurchaseRequest::productId).toList();
+    final var existingProducts = productRepository.findAllByIdInOrderById(orderProducts);
+
+    Map<Integer, String> errMsg = new HashMap<>();
+    final var purchasedProducts = new ArrayList<PurchaseResponse>();
+    order.forEach(
+        item -> {
+          final ProductModel product =
+              existingProducts.stream()
+                  .filter(prod -> prod.getId().equals(item.productId()))
+                  .findFirst()
+                  .orElse(null);
+
+          if (product == null) {
+            errMsg.put(item.productId(), "Product with id " + item.productId() + " not found.");
+          } else if (product.getQuantity() < item.quantity()) {
+            errMsg.put(
+                item.productId(),
+                String.format("Not enough items with id %s in stock.", item.productId()));
+          } else {
+            product.setQuantity(product.getQuantity() - item.quantity());
+            productRepository.save(product);
+            purchasedProducts.add(
+                PurchaseResponse.builder()
+                    .productId(product.getId())
+                    .productPrice(product.getPrice())
+                    .quantity(item.quantity())
+                    .build());
+          }
+        });
+
+    if (!errMsg.isEmpty()) {
+      throw new PurchaseException("Error while ordering items", errMsg);
+    }
+    return purchasedProducts;
   }
 }
