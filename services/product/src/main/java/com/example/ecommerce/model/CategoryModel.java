@@ -6,7 +6,8 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity(name = "category")
+@Entity
+@Table(name="category")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
