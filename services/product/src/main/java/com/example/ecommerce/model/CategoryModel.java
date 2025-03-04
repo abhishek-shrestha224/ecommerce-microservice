@@ -1,10 +1,8 @@
 package com.example.ecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Builder
+@ToString(exclude = "products")
 public class CategoryModel {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +21,6 @@ public class CategoryModel {
   private String name;
 
   @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+  @JsonManagedReference
   private List<ProductModel> products;
 }

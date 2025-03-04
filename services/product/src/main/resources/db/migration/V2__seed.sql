@@ -1,34 +1,22 @@
--- Insert categories
-INSERT INTO category (id, name) VALUES
-(nextval('category_seq'), 'Electronics'),
-(nextval('category_seq'), 'Clothing'),
-(nextval('category_seq'), 'Books'),
-(nextval('category_seq'), 'Home Appliances'),
-(nextval('category_seq'), 'Toys');
+-- V2__Seed_category_table.sql
 
--- Insert products
-INSERT INTO product (id, name, quantity, price, category_id) VALUES
--- Electronics
-(nextval('product_seq'), 'Smartphone', 10, 699.99, (SELECT id FROM category WHERE name = 'Electronics')),
-(nextval('product_seq'), 'Laptop', 5, 1299.99, (SELECT id FROM category WHERE name = 'Electronics')),
-(nextval('product_seq'), 'Headphones', 15, 199.99, (SELECT id FROM category WHERE name = 'Electronics')),
+INSERT INTO category (name) VALUES
+('Electronics'),
+('Clothing'),
+('Books'),
+('Home & Kitchen'),
+('Sports & Outdoors');
 
--- Clothing
-(nextval('product_seq'), 'T-Shirt', 50, 19.99, (SELECT id FROM category WHERE name = 'Clothing')),
-(nextval('product_seq'), 'Jeans', 30, 49.99, (SELECT id FROM category WHERE name = 'Clothing')),
-(nextval('product_seq'), 'Jacket', 20, 99.99, (SELECT id FROM category WHERE name = 'Clothing')),
+-- V2__Seed_product_table.sql
 
--- Books
-(nextval('product_seq'), 'Programming Book', 20, 39.99, (SELECT id FROM category WHERE name = 'Books')),
-(nextval('product_seq'), 'Science Fiction Novel', 15, 24.99, (SELECT id FROM category WHERE name = 'Books')),
-(nextval('product_seq'), 'History Book', 10, 29.99, (SELECT id FROM category WHERE name = 'Books')),
-
--- Home Appliances
-(nextval('product_seq'), 'Microwave', 10, 199.99, (SELECT id FROM category WHERE name = 'Home Appliances')),
-(nextval('product_seq'), 'Vacuum Cleaner', 8, 149.99, (SELECT id FROM category WHERE name = 'Home Appliances')),
-(nextval('product_seq'), 'Air Purifier', 12, 179.99, (SELECT id FROM category WHERE name = 'Home Appliances')),
-
--- Toys
-(nextval('product_seq'), 'Lego Set', 25, 59.99, (SELECT id FROM category WHERE name = 'Toys')),
-(nextval('product_seq'), 'Board Game', 30, 34.99, (SELECT id FROM category WHERE name = 'Toys')),
-(nextval('product_seq'), 'Action Figure', 40, 14.99, (SELECT id FROM category WHERE name = 'Toys'));
+INSERT INTO product (name, quantity, price, category_id) VALUES
+('Laptop', 10, 999.99, 1),
+('Smartphone', 20, 699.00, 1),
+('T-Shirt', 50, 29.99, 2),
+('Jeens', 30, 49.99, 2),
+('The Lord of the Rings', 15, 19.95, 3),
+('Harry Potter and the Sorcerer''s Stone', 25, 15.50, 3),
+('Blender', 12, 59.99, 4),
+('Coffee Maker', 8, 79.00, 4),
+('Basketball', 40, 24.99, 5),
+('Running Shoes', 35, 89.95, 5);

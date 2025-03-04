@@ -12,4 +12,11 @@ public record ProductRequest(
     @NotBlank String name,
     @Positive Integer quantity,
     @Positive BigDecimal price,
-    @NotBlank String categoryName) {}
+    @NotBlank String categoryName) {
+  @Override
+  public String toString() {
+    return String.format(
+        "ProductResponse[id=%d, name='%s', quantity=%d, price=%.2f, categoryName='%s']",
+        id, name, quantity, price, categoryName);
+  }
+}

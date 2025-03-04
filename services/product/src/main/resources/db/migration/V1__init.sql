@@ -1,17 +1,25 @@
-create table if not exists category
-(
-    id integer not null primary key,
-    name varchar(255)
+-- V1__Create_category_table.sql
+
+CREATE SEQUENCE category_id_seq;
+
+CREATE TABLE category (
+    id INTEGER PRIMARY KEY DEFAULT nextval('category_id_seq'),
+    name VARCHAR(255) NOT NULL UNIQUE
 );
 
-create table if not exists product
-(
-    id integer not null primary key,
-    name varchar(255),
-    quantity double precision not null,
-    price numeric(38, 2),
-    category_id integer constraint fk_category references category(id)
+ALTER SEQUENCE category_id_seq OWNED BY category.id;
+
+-- V1__Create_product_table.sql
+
+CREATE SEQUENCE product_id_seq;
+
+CREATE TABLE product (
+    id INTEGER PRIMARY KEY DEFAULT nextval('product_id_seq'),
+    name VARCHAR(255),
+    quantity INTEGER,
+    price DECIMAL(10, 2),
+    category_id INTEGER,
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
-create sequence if not exists category_seq increment by 50;
-create sequence if not exists product_seq increment by 50;
+ALTER SEQUENCE product_id_seq OWNED BY product.id;

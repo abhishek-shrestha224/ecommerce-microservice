@@ -10,4 +10,11 @@ import java.util.List;
 
 @Builder
 public record PurchaseResponse(
-    Integer productId, String productName, BigDecimal productPrice, Integer quantity) {}
+    Integer productId, String productName, BigDecimal productPrice, Integer quantity) {
+  @Override
+  public String toString() {
+    return String.format(
+        "ProductResponse[productId=%d, productName='%s', productPrice=%.2f, quantity='%d']",
+        productId, productName, productPrice, quantity, quantity);
+  }
+}

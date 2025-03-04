@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ProductMapper {
 
   public ProductModel toModel(ProductRequest req) {
-    log.info("ProductRequest -> ProductModel: :{}", req);
+    log.info("ProductRequest -> ProductModel::{}", req);
     return ProductModel.builder()
         .id(req.id())
         .name(req.name())
