@@ -3,6 +3,8 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.client.CustomerClient;
 import com.example.ecommerce.client.ProductClient;
 import com.example.ecommerce.exception.BusinessException;
+import com.example.ecommerce.kafka.OrderConfirmation;
+import com.example.ecommerce.kafka.OrderProducer;
 import com.example.ecommerce.repository.OrderRepository;
 import com.example.ecommerce.request.OrderLineRequest;
 import com.example.ecommerce.request.OrderRequest;
@@ -18,6 +20,7 @@ public class OrderService {
   private final ProductClient productClient;
   private final OrderMapper orderMapper;
   private final OrderLineService orderLineService;
+  private final OrderProducer orderProducer;
 
   public Integer create(OrderRequest orderRequest) {
     final var customer =
@@ -30,7 +33,7 @@ public class OrderService {
                             "Cannot create order. No customer found with id::%s",
                             orderRequest.customerId())));
 
-    productClient.purchase(orderRequest.products());
+    final var purchasedProducts = productClient.purchase(orderRequest.products());
 
     var order = orderRepository.save(orderMapper.toEntity(orderRequest));
 
@@ -41,6 +44,17 @@ public class OrderService {
               orderLineService.create(
                   new OrderLineRequest(null, order.getId(), item.productId(), item.quantity()));
             });
-    return null;
+
+    orderProducer.sendOrderConfirmation(
+        new OrderConfirmation(
+            orderRequest.ref(),
+            orderRequest.total(),
+            orderRequest.paymentMethod(),
+            customer,
+            purchasedProducts));
+
+
+
+    return order.getId();
   }
 }
