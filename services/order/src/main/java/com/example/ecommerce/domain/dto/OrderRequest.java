@@ -1,13 +1,12 @@
-package com.example.ecommerce.request;
+package com.example.ecommerce.domain.dto;
 
-import com.example.ecommerce.model.PaymentMethod;
+import com.example.ecommerce.domain.entity.PaymentMethod;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Builder;
-import org.springframework.validation.annotation.Validated;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,4 +18,4 @@ public record OrderRequest(
     @Positive BigDecimal total,
     @NotNull PaymentMethod paymentMethod,
     @NotBlank String customerId,
-    @NotEmpty @Valid List<PurchaseRequest> products) {}
+    @NotEmpty @Valid List<PurchaseProducts> products) {}

@@ -1,4 +1,4 @@
-package com.example.ecommerce.response;
+package com.example.ecommerce.service.client.dto;
 
 import lombok.Builder;
 

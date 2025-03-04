@@ -1,4 +1,4 @@
-package com.example.ecommerce.model;
+package com.example.ecommerce.domain.entity;
 
 public enum PaymentMethod {
   PAYPAL,

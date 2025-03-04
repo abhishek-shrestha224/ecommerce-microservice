@@ -1,6 +1,6 @@
-package com.example.ecommerce.client;
+package com.example.ecommerce.service.client;
 
-import com.example.ecommerce.response.CustomerResponse;
+import com.example.ecommerce.service.client.dto.CustomerResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

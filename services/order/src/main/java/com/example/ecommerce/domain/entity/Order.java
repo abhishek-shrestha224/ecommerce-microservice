@@ -1,4 +1,4 @@
-package com.example.ecommerce.model;
+package com.example.ecommerce.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

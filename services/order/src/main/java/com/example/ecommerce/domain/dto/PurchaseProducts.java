@@ -1,4 +1,4 @@
-package com.example.ecommerce.request;
+package com.example.ecommerce.domain.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -7,4 +7,4 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @Builder
-public record PurchaseRequest(@NotNull Integer productId, @Positive Integer quantity) {}
+public record PurchaseProducts(@NotNull Integer productId, @Positive Integer quantity) {}

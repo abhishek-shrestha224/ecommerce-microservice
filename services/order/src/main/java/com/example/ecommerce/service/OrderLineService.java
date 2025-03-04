@@ -1,7 +1,7 @@
 package com.example.ecommerce.service;
 
 import com.example.ecommerce.repository.OrderLineRepository;
-import com.example.ecommerce.request.OrderLineRequest;
+import com.example.ecommerce.domain.dto.OrderLineRequest;
 import com.example.ecommerce.utils.OrderLineMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +14,8 @@ public class OrderLineService {
   private final OrderLineRepository orderLineRepository;
   private final OrderLineMapper orderLineMapper;
 
-  public Integer create(OrderLineRequest orderLineRequest) {
+  public void create(OrderLineRequest orderLineRequest) {
     log.info("Creating order line::{}", orderLineRequest);
-    return orderLineRepository.save(orderLineMapper.toEntity(orderLineRequest)).getId();
+    var ignored = orderLineRepository.save(orderLineMapper.toEntity(orderLineRequest)).getId();
   }
 }

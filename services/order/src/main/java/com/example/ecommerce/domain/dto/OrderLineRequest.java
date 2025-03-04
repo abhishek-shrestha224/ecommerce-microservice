@@ -1,4 +1,4 @@
-package com.example.ecommerce.request;
+package com.example.ecommerce.domain.dto;
 
 import lombok.Builder;
 

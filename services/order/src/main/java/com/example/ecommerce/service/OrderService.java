@@ -1,13 +1,13 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.client.CustomerClient;
-import com.example.ecommerce.client.ProductClient;
+import com.example.ecommerce.service.client.CustomerClient;
+import com.example.ecommerce.service.client.ProductClient;
 import com.example.ecommerce.exception.BusinessException;
-import com.example.ecommerce.kafka.OrderConfirmation;
-import com.example.ecommerce.kafka.OrderProducer;
+import com.example.ecommerce.service.kafka.OrderConfirmation;
+import com.example.ecommerce.service.kafka.OrderProducer;
 import com.example.ecommerce.repository.OrderRepository;
-import com.example.ecommerce.request.OrderLineRequest;
-import com.example.ecommerce.request.OrderRequest;
+import com.example.ecommerce.domain.dto.OrderLineRequest;
+import com.example.ecommerce.domain.dto.OrderRequest;
 import com.example.ecommerce.utils.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,10 +40,9 @@ public class OrderService {
     orderRequest
         .products()
         .forEach(
-            item -> {
-              orderLineService.create(
-                  new OrderLineRequest(null, order.getId(), item.productId(), item.quantity()));
-            });
+            item ->
+                orderLineService.create(
+                    new OrderLineRequest(null, order.getId(), item.productId(), item.quantity())));
 
     orderProducer.sendOrderConfirmation(
         new OrderConfirmation(
@@ -52,8 +51,6 @@ public class OrderService {
             orderRequest.paymentMethod(),
             customer,
             purchasedProducts));
-
-
 
     return order.getId();
   }

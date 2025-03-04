@@ -1,8 +1,8 @@
-package com.example.ecommerce.kafka;
+package com.example.ecommerce.service.kafka;
 
-import com.example.ecommerce.model.PaymentMethod;
-import com.example.ecommerce.response.CustomerResponse;
-import com.example.ecommerce.response.PurchaseResponse;
+import com.example.ecommerce.domain.entity.PaymentMethod;
+import com.example.ecommerce.service.client.dto.CustomerResponse;
+import com.example.ecommerce.service.client.dto.PurchaseResponse;
 import lombok.Builder;
 
 import java.math.BigDecimal;

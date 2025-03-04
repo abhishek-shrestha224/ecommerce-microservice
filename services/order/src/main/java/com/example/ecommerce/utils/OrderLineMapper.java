@@ -1,9 +1,8 @@
 package com.example.ecommerce.utils;
 
-import com.example.ecommerce.model.Order;
-import com.example.ecommerce.model.OrderLine;
-import com.example.ecommerce.request.OrderLineRequest;
-import com.example.ecommerce.request.OrderRequest;
+import com.example.ecommerce.domain.entity.Order;
+import com.example.ecommerce.domain.entity.OrderLine;
+import com.example.ecommerce.domain.dto.OrderLineRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
