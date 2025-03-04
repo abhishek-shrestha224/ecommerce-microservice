@@ -1,5 +1,6 @@
-package com.example.ecommerce.model;
+package com.example.ecommerce.order;
 
+import com.example.ecommerce.model.OrderLine;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @ToString(exclude = "orderLines")
-public class OrderModel {
+public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Integer id;

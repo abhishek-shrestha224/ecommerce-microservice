@@ -1,5 +1,6 @@
 package com.example.ecommerce.model;
 
+import com.example.ecommerce.order.Order;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,7 +22,7 @@ public class OrderLine {
   @ManyToOne
   @JoinColumn(name = "order_id")
   @JsonBackReference
-  private OrderModel order;
+  private Order order;
 
   private Integer productId;
 
