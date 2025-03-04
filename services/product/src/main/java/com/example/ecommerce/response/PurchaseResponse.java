@@ -15,6 +15,6 @@ public record PurchaseResponse(
   public String toString() {
     return String.format(
         "ProductResponse[productId=%d, productName='%s', productPrice=%.2f, quantity='%d']",
-        productId, productName, productPrice, quantity, quantity);
+        productId, productName, productPrice, quantity);
   }
 }

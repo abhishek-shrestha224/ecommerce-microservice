@@ -1,6 +1,5 @@
-package com.example.ecommerce.order;
+package com.example.ecommerce.model;
 
-import com.example.ecommerce.model.OrderLine;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;

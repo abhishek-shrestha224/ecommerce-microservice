@@ -1,4 +1,4 @@
-package com.example.ecommerce.order;
+package com.example.ecommerce.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
