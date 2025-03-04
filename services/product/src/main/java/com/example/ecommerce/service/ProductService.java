@@ -8,7 +8,9 @@ import com.example.ecommerce.request.PurchaseRequest;
 import com.example.ecommerce.response.ProductResponse;
 import com.example.ecommerce.response.PurchaseResponse;
 import com.example.ecommerce.utils.ProductMapper;
+import com.example.ecommerce.utils.PurchaseMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 public class ProductService {
   private final ProductRepository productRepository;
   private final ProductMapper productMapper;
+  private final PurchaseMapper purchaseMapper;
 
   public Integer crete(ProductRequest req) {
     log.info("Creating product::{}", req);
@@ -51,6 +54,7 @@ public class ProductService {
         .collect(Collectors.toList());
   }
 
+  @Transactional
   public List<PurchaseResponse> purchase(List<PurchaseRequest> order) {
     final var orderProducts = order.stream().map(PurchaseRequest::productId).toList();
     final var existingProducts = productRepository.findAllByIdInOrderById(orderProducts);
@@ -74,12 +78,7 @@ public class ProductService {
           } else {
             product.setQuantity(product.getQuantity() - item.quantity());
             productRepository.save(product);
-            purchasedProducts.add(
-                PurchaseResponse.builder()
-                    .productId(product.getId())
-                    .productPrice(product.getPrice())
-                    .quantity(item.quantity())
-                    .build());
+            purchasedProducts.add(purchaseMapper.toResponse(product, item.quantity()));
           }
         });
 

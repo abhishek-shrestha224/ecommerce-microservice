@@ -9,4 +9,5 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Builder
-public record PurchaseResponse(Integer productId, BigDecimal productPrice, Integer quantity) {}
+public record PurchaseResponse(
+    Integer productId, String productName, BigDecimal productPrice, Integer quantity) {}

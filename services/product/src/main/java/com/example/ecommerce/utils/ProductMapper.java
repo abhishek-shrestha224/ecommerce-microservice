@@ -23,7 +23,7 @@ public class ProductMapper {
   }
 
   public ProductResponse toResponse(ProductModel model) {
-    log.info("ProductModel -> ProductResponse: :{}", model);
+    log.info("ProductModel -> ProductResponse::{}", model);
 
     return ProductResponse.builder()
         .id(model.getId())
@@ -33,4 +33,5 @@ public class ProductMapper {
         .categoryName(model.getCategory().getName())
         .build();
   }
+
 }
