@@ -10,10 +10,10 @@ import com.example.ecommerce.response.PurchaseResponse;
 import com.example.ecommerce.utils.ProductMapper;
 import com.example.ecommerce.utils.PurchaseMapper;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
