@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @Builder
 @ToString(exclude = "order")
-public class OrderLine {
+public class OrderItem {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   Integer id;

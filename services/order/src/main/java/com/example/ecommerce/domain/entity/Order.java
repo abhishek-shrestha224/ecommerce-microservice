@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString(exclude = "orderLines")
+@ToString(exclude = "orderItems")
 public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Order {
 
   @OneToMany(mappedBy = "order")
   @JsonManagedReference
-  private List<OrderLine> orderLines;
+  private List<OrderItem> orderItems;
 
   @CreatedDate
   @Column(updatable = false, nullable = false)

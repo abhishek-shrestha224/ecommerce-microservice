@@ -11,7 +11,7 @@ import com.example.ecommerce.service.client.dto.PurchaseResponse;
 import com.example.ecommerce.service.kafka.OrderConfirmation;
 import com.example.ecommerce.service.kafka.OrderProducer;
 import com.example.ecommerce.repository.OrderRepository;
-import com.example.ecommerce.domain.dto.OrderLineRequest;
+import com.example.ecommerce.domain.dto.OrderItemRequest;
 import com.example.ecommerce.domain.dto.OrderRequest;
 import com.example.ecommerce.utils.OrderMapper;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,7 +28,7 @@ public class OrderService {
   private final CustomerClient customerClient;
   private final ProductClient productClient;
   private final OrderMapper orderMapper;
-  private final OrderLineService orderLineService;
+  private final OrderItemService orderItemService;
   private final OrderProducer orderProducer;
 
   public Integer create(OrderRequest orderRequest) {
@@ -37,7 +37,7 @@ public class OrderService {
     final var purchasedProducts = productClient.purchase(orderRequest.products());
 
     var order = saveOrder(orderRequest);
-    createOrderLines(order, orderRequest.products());
+    createOrderItems(order, orderRequest.products());
 
     sendOrderConfirmation(orderRequest, customer, purchasedProducts);
 
@@ -69,11 +69,12 @@ public class OrderService {
     return orderRepository.save(orderMapper.toEntity(orderRequest));
   }
 
-  private void createOrderLines(Order order, List<PurchaseProducts> products) {
+  private void createOrderItems(Order order, List<PurchaseProducts> products) {
     products.forEach(
         item ->
-            orderLineService.create(
-                new OrderLineRequest(null, order.getId(), item.productId(), item.quantity())));
+            orderItemService.create(
+                new OrderItemRequest(
+                    null, order.getId(), new PurchaseProducts(item.productId(), item.quantity()))));
   }
 
   private void sendOrderConfirmation(

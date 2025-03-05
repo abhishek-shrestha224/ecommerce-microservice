@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("order")
+@RequestMapping("/order")
 @RequiredArgsConstructor
 @Slf4j
 public class OrderController {
@@ -32,9 +32,9 @@ public class OrderController {
     return orderService.findAll();
   }
 
-  @GetMapping("/{id}")
-  public OrderResponse findById(@PathVariable final Integer id) {
-    log.info("GET::/order/{}", id);
-    return orderService.findById(id);
+  @GetMapping("/{orderId}")
+  public OrderResponse findById(@PathVariable("orderId") final Integer orderId) {
+    log.info("GET::/order/{}", orderId);
+    return orderService.findById(orderId);
   }
 }

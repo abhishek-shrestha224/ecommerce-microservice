@@ -29,12 +29,6 @@ public class OrderMapper {
         .ref(entity.getRef())
         .total(entity.getTotal())
         .paymentMethod(entity.getPaymentMethod())
-        .products(
-            entity.getOrderLines().stream()
-                .map(
-                    orderLine ->
-                        new PurchaseProducts(orderLine.getProductId(), orderLine.getQuantity()))
-                .toList())
         .build();
   }
 }

@@ -8,9 +8,4 @@ import java.util.List;
 
 @Builder
 public record OrderResponse(
-    Integer id,
-    String ref,
-    BigDecimal total,
-    PaymentMethod paymentMethod,
-    String customerId,
-    List<PurchaseProducts> products) {}
+    Integer id, String ref, BigDecimal total, PaymentMethod paymentMethod, String customerId) {}
