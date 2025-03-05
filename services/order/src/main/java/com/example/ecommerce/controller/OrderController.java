@@ -1,18 +1,40 @@
 package com.example.ecommerce.controller;
 
+import com.example.ecommerce.domain.dto.OrderRequest;
+import com.example.ecommerce.domain.dto.OrderResponse;
+import com.example.ecommerce.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("order")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
-  @PostMapping("/order")
-  public Integer order(@RequestBody @Valid final String orderItems) {
-    return null;
+  private final OrderService orderService;
+
+  @PostMapping
+  @ResponseStatus(HttpStatus.OK)
+  public Integer order(@RequestBody @Valid final OrderRequest orderItems) {
+    log.info("POST::/order::{}", orderItems);
+    return orderService.create(orderItems);
+  }
+
+  @GetMapping
+  @ResponseStatus(HttpStatus.OK)
+  public List<OrderResponse> findAll() {
+    log.info("GET::/order");
+    return orderService.findAll();
+  }
+
+  @GetMapping("/{id}")
+  public OrderResponse findById(@PathVariable final Integer id) {
+    log.info("GET::/order/{}", id);
+    return orderService.findById(id);
   }
 }

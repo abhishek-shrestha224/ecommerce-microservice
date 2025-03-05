@@ -22,7 +22,7 @@ import java.util.List;
 public class Order {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  Integer id;
+  private Integer id;
 
   private String ref;
   private BigDecimal total;

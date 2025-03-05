@@ -57,21 +57,23 @@ public class ProductService {
   @Transactional
   public List<PurchaseResponse> purchase(List<PurchaseRequest> order) {
     log.info("Attempting to order for {}", order);
-    final var orderProducts = order.stream().map(PurchaseRequest::productId).toList();
+    List<Integer> orderProducts =
+        order.stream().map(PurchaseRequest::productId).distinct().toList();
+
     log.info("Order Product IDs::{}", orderProducts);
     final var existingProducts = productRepository.findAllByIdInOrderById(orderProducts);
+
     log.info("Fetched Corresponding Products::{}", existingProducts);
+    Map<Integer, ProductModel> productMap =
+        existingProducts.stream().collect(Collectors.toMap(ProductModel::getId, p -> p));
 
     Map<Integer, String> errMsg = new HashMap<>();
     final var purchasedProducts = new ArrayList<PurchaseResponse>();
+    List<ProductModel> updatedProducts = new ArrayList<>();
+
     order.forEach(
         item -> {
-          log.info("Processing Order for {}", item);
-          final ProductModel product =
-              existingProducts.stream()
-                  .filter(prod -> prod.getId().equals(item.productId()))
-                  .findFirst()
-                  .orElse(null);
+          final ProductModel product = productMap.get(item.productId());
 
           if (product == null) {
             errMsg.put(item.productId(), "Product with id " + item.productId() + " not found.");
@@ -82,18 +84,24 @@ public class ProductService {
                 String.format("Not enough items with id %s in stock.", item.productId()));
             log.warn(errMsg.get(item.productId()));
           } else {
-            log.info("Order details is OK");
+            log.info("Order details are OK");
             product.setQuantity(product.getQuantity() - item.quantity());
             log.info("Item left in stock::{}", product);
-            productRepository.save(product);
+            updatedProducts.add(product);
             purchasedProducts.add(purchaseMapper.toResponse(product, item.quantity()));
           }
         });
 
-    if (!errMsg.isEmpty()) {
-      log.warn("Error Occurred:( Delegating to exception handler now::{}", errMsg);
-      throw new PurchaseException("Error while ordering items", errMsg);
+    if (!updatedProducts.isEmpty()) {
+      productRepository.saveAll(updatedProducts);
     }
+
+    if (!errMsg.isEmpty()) {
+      log.warn("Purchase failed due to insufficient stock or missing products: {}", errMsg);
+      throw new PurchaseException(
+          "Failed to complete purchase. Issues encountered: " + errMsg, errMsg);
+    }
+
     log.info("Returning control back to controller with data::{}", purchasedProducts);
     return purchasedProducts;
   }
