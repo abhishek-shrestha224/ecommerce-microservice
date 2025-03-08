@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class NotificationProducer {
   private final KafkaTemplate<String, PaymentNotificationRequest> kafkaTemplate;
 
-  public void voidSendNotification(PaymentNotificationRequest request) {
+  public void sendNotification(PaymentNotificationRequest request) {
     log.info("Sending notification with body::{}", request);
     Message<PaymentNotificationRequest> message =
         MessageBuilder.withPayload(request).setHeader(KafkaHeaders.TOPIC, "payment_topic").build();
