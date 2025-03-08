@@ -3,7 +3,7 @@ package com.example.ecommerce.service;
 import com.example.ecommerce.domain.dto.PaymentDto;
 import com.example.ecommerce.repository.PaymentRepository;
 import com.example.ecommerce.service.kafka.NotificationProducer;
-import com.example.ecommerce.service.kafka.dto.PaymentNotificationRequest;
+import com.example.ecommerce.service.kafka.dto.PaymentConfirmation;
 import com.example.ecommerce.utils.PaymentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class PaymentService {
   public Integer createPayment(PaymentDto dto) {
     final var created = paymentRepository.save(paymentMapper.toEntity(dto));
     notificationProducer.sendNotification(
-        PaymentNotificationRequest.builder()
+        PaymentConfirmation.builder()
             .orderRef(dto.orderRef())
             .paymentMethod(dto.paymentMethod())
             .amount(dto.amount())

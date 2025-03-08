@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.math.BigDecimal;
 
 @Builder
-public record PaymentNotificationRequest(
+public record PaymentConfirmation(
     String orderRef,
     BigDecimal amount,
     PaymentMethod paymentMethod,

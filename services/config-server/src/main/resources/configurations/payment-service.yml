@@ -2,7 +2,7 @@ server:
   port: 8030
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/order
+    url: jdbc:postgresql://localhost:5432/payment
     username: admin
     password: changeinprod
     driver-class-name: org.postgresql.Driver
@@ -18,10 +18,4 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
-        spring.json.type.mapping: orderConfirmation:com.example.ecommerce.service.kafka.OrderConfirmation
-
-application:
-  config:
-    customer-url: http://localhost:8010/customer
-    product-url: http://localhost:8020/product
-    payment-url: http://localhost:8050/payment
+        spring.json.type.mapping: paymentConfirmation:com.example.ecommerce.service.kafka.dto.PaymentConfirmation
