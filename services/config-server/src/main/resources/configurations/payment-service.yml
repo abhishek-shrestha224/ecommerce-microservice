@@ -1,5 +1,5 @@
 server:
-  port: 8030
+  port: 8050
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/payment
