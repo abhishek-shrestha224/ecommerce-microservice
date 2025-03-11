@@ -4,9 +4,11 @@ import com.example.ecommerce.domain.dto.OrderResponse;
 import com.example.ecommerce.domain.dto.PurchaseProducts;
 import com.example.ecommerce.domain.entity.Order;
 import com.example.ecommerce.service.client.CustomerClient;
+import com.example.ecommerce.service.client.PaymentClient;
 import com.example.ecommerce.service.client.ProductClient;
 import com.example.ecommerce.exception.BusinessException;
 import com.example.ecommerce.service.client.dto.CustomerResponse;
+import com.example.ecommerce.service.client.dto.PaymentRequest;
 import com.example.ecommerce.service.client.dto.PurchaseResponse;
 import com.example.ecommerce.service.kafka.OrderConfirmation;
 import com.example.ecommerce.service.kafka.OrderProducer;
@@ -30,6 +32,7 @@ public class OrderService {
   private final OrderMapper orderMapper;
   private final OrderItemService orderItemService;
   private final OrderProducer orderProducer;
+  private final PaymentClient paymentClient;
 
   public Integer create(OrderRequest orderRequest) {
     final var customer = getValidCustomer(orderRequest.customerId());
@@ -38,6 +41,16 @@ public class OrderService {
 
     var order = saveOrder(orderRequest);
     createOrderItems(order, orderRequest.products());
+    final var paymentRequest =
+        PaymentRequest.builder()
+            .amount(orderRequest.total())
+            .orderId(order.getId())
+            .orderRef(order.getRef())
+            .paymentMethod(orderRequest.paymentMethod())
+            .customer(customer)
+            .build();
+
+    paymentClient.pay(paymentRequest);
 
     sendOrderConfirmation(orderRequest, customer, purchasedProducts);
 
