@@ -2,4 +2,4 @@ package com.example.ecommerce.ext;
 
 import java.math.BigDecimal;
 
-public record Product(String id, String name, BigDecimal price, Integer quantity) {}
+public record Product(Integer id, String productName, Integer quantity, BigDecimal price) {}

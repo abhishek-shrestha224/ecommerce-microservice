@@ -8,7 +8,7 @@ import java.util.List;
 @Builder
 public record OrderConfirmation(
     String orderRef,
-    BigDecimal totalAmount,
+    BigDecimal total,
     PaymentMethod paymentMethod,
     CustomerInfo customer,
     List<Product> products) {}
